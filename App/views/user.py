@@ -23,7 +23,6 @@ def static_user_page():
   return send_from_directory('static', 'static-user.html')
 
 # REGISTRATION NORMAL USER
-
 @user_views.route('/register', methods=['GET','POST'])
 def get_user_reg_page():
     if request.method == 'POST':
