@@ -1,7 +1,8 @@
+from App.controllers.user import get_user_by_email
 from App.models import User
 
 def authenticate(email, password):
-    user = User.query.filter_by(email=email).first()
+    user = get_user_by_email(email)
     if user and user.check_password(password):
         return user
 

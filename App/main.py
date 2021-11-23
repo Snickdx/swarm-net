@@ -18,18 +18,16 @@ from App.modules.auth_module import (authenticate, identity)
 from App.database import db
 
 from App.views import (
-    api_bp,
-    user_bp,
-    chatroom_bp,
-    auth_bp,
     api_views,
     user_views,
+    chatroom_views,
+    auth_views,
     user_registration
 )
 
 
 #place all views here
-views = [api_views, user_views , user_registration]
+views = [api_views, user_views, auth_views, chatroom_views,user_registration]
 
 def add_views(app, views):
     for view in views:
