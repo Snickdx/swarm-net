@@ -11,28 +11,23 @@ from flask_uploads import (
     TEXT,
     DOCUMENTS
 )
-from App.controllers.user import get_user_by_id
-from App.models.user import User
 
-from App.modules.auth_module import (authenticate, identity)
-from App.database import db
-
+from App.controllers import ( get_user_by_id, authenticate, identity)
+from App.models import (User, db)
 from App.views import (
-    api_views,
-    user_views,
-    chatroom_views,
     auth_views,
-    user_registration
+    chat_views,
+    home_views,
+    topic_views,
+    user_views,
 )
 
-
 #place all views here
-views = [api_views, user_views, auth_views, chatroom_views,user_registration]
+views = [ auth_views, chat_views, home_views, topic_views, user_views]
 
 def add_views(app, views):
     for view in views:
         app.register_blueprint(view)
-
 
 def loadConfig(app, config):
     app.config['ENV'] = os.environ.get('ENV', 'development')
@@ -53,12 +48,10 @@ def init_db(app):
     db.init_app(app)
     db.create_all(app=app)
 
-
 def create_login_manager(app):
     login_manager = LoginManager()
     login_manager.init_app(app)
     return login_manager
-
 
 def create_app(config={}):
     app = Flask(__name__, static_url_path='/static')
@@ -77,12 +70,8 @@ def create_app(config={}):
     return app
 
 
-def create_sockets(app):
-    return SocketIO(app, cors_allowed_origins="*")
-
-
 app = create_app()
-socketio = create_sockets(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 login_manager = create_login_manager(app)
 
 
@@ -136,5 +125,4 @@ def get_room(sender, receiver):
 
 if __name__ == "__main__":
     app = create_app()
-    socketio.run(app, host='localhost', port=8080,
-                 debug=app.config['ENV'] == 'development')
+    socketio.run(app, host='localhost', port=8080, debug=app.config['ENV'] == 'development')

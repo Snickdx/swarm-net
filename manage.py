@@ -1,12 +1,13 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-from App.controllers.user import create_user
-from App.main import socketio, app
-from App.controllers import create_users
-from App.database import db
-from App.controllers import register_admin
+from App.controllers import (
+    create_user,
+    create_users,
+    register_admin
+)
 
+from App.main import socketio, app, db
 
 manager = Manager(app)
 migrate = Migrate(app, db)
@@ -21,13 +22,10 @@ def initDB():
     print('database initialized!')
 
 # serve command
-
-
 @manager.command
 def serve():
     print('Application running in '+app.config['ENV']+' mode')
-    socketio.run(app, host='localhost', port=8080,
-                 debug=app.config['ENV'] == 'development')
+    socketio.run(app, host='localhost', port=8080, debug=app.config['ENV'] == 'development')
 
 
 @manager.command
@@ -61,25 +59,11 @@ def make_users():
     print("users created")
 
 
-# CREATE ADMIN FROM CONTROLLER
+#creates an admin
 @manager.command
-def createAdmin():
-    n1 = input('Enter ADMIN firstname :')
-    print (n1)
-    n2 = input('Enter ADMIN lastname :')
-    print (n2)
-    e1 = input('Enter ADMIN email :')
-    print (e1)
-    p1 = input('Enter ADMIN password :')
-    print (p1)
-
-    fname1 = User(first_name=n1)
-    fname2 = User(last_name=n2)
-    email1 = User(email=e1)
-    pass1 = User(password=p1)
-    
-    admin = register_admin(n1,n2,e1,p1)
-    return admin
+def createAdmin(fname="robAdmin", lname="Smith", email="robadmin@mail.com", password="bobpass"):
+    register_admin(fname, lname, email, password)
+    print(fname+' created!')
 
 if __name__ == "__main__":
     manager.run()
