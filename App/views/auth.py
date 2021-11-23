@@ -23,7 +23,7 @@ def login():
 
         # if the above check passes, then we know the user has the right credentials
         login_user(user, remember)
-        return redirect(url_for('chatroom.index'))
+        return redirect(url_for('chat_views.index'))
 
 
 @auth_views.route("/logout", methods=["GET"])
