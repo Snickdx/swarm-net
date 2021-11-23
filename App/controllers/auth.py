@@ -4,7 +4,7 @@ from App.models import User
 
 
 def authenticate(email, password):
-    user = get_user_by_email(email)
+    user = User.query.filter_by(email=email).first()
     if user and user.check_password(password):
         return user
 
@@ -12,11 +12,10 @@ def authenticate(email, password):
 def identity(payload):
     return User.query.get(payload['identity'])
 
-
 def login_user(user, remember):
     return flask_login.login_user(user, remember=remember)
 
-
+  
 def validate_user_credentials(email, password):
     return authenticate(email, password)
 
