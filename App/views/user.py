@@ -27,7 +27,11 @@ def static_user_page():
 def get_user_reg_page():
     if request.method == 'POST':
         try:
-            RegisterUser = register()
+            fname = request.form['first_name']
+            lname = request.form['last_name']
+            email = request.form['email']
+            password = request.form['password']
+            RegisterUser = register(fname,lname,email,password)
         except IntegrityError:
             db.session.rollback()
             return jsonify('Something went wrong. User NOT Registered')

@@ -1,6 +1,7 @@
 from App.models import User
 from App.models import ( User, db )
 
+from App.models import user
 
 def get_all_users():
     return User.query.all()
@@ -37,6 +38,7 @@ def get_user_by_fname(first_name):
 
 def get_user_by_id(id):
     return User.query.filter_by(id=id).first()
+
     
 def get_user_by_email(email):
     return User.query.filter_by(email=email).first()
@@ -46,10 +48,11 @@ def get_all_users():
     return  User.query.all()
 
 # REGISTER A NORMAL USER
-def register(first_name, last_name, email, password):
-        publicUser = User(first_name=first_name, last_name=last_name, email=email, password=password)
-        db.session.add(publicUser)
-        db.session.commit()
+def register(fname,lname,email,password):
+    publicUser = User(first_name=fname, last_name=lname, email=email, password=password)
+    publicUser.set_password(password)
+    db.session.add(publicUser)
+    db.session.commit()
     
 # REGISTER ADMIN USER
 def register_admin(firstname, lastname, email, password):
