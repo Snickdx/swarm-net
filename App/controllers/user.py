@@ -1,7 +1,5 @@
-from App.models import User
 from App.models import ( User, db )
-
-from App.models import user
+from App.models.admin import Admin
 
 def get_all_users():
     return User.query.all()
@@ -56,7 +54,7 @@ def register(fname,lname,email,password):
     
 # REGISTER ADMIN USER
 def register_admin(firstname, lastname, email, password):
-    adminUser = User(first_name=firstname, last_name=lastname, email=email,password=password)
+    adminUser = User(first_name=firstname, last_name=lastname, email=email)
     adminUser.set_password(password)
     db.session.add(adminUser)
     db.session.commit()

@@ -18,6 +18,7 @@ class Topic(db.Model):
     def __repr__(self):
         return f"{self.text}"
 
+    # TODO: Implement observer pattern
     def subscribe(self, userId):
         self.text = userId
 
