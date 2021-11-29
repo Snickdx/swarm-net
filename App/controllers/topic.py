@@ -1,10 +1,16 @@
 from App.models import (Topic, db)
 from App.models.user import User
+from App.views.topic import get_topic
 
 # get all topics
 def get_topics():
     return Topic.query.all()
 
+# get topic by id
+def get_topic_by_id(id):
+    print(f"Getting Topic with ID: {id}")
+    topic = Topic.query.filter_by(id=id).first()
+    return topic
 
 # Get top 5 topics by post count
 def get_popular_topics():
@@ -22,6 +28,21 @@ def create_topic(text, level):
     return newTopic
 
 
+def edit_topic(topic_id, text, level):
+    topic = get_topic_by_id(topic_id)
+
+    if topic:
+        topic.text = text
+        topic.level = level
+
+        print(f"Updated topic: {text}")
+        db.session.add(topic)
+        db.session.commit()
+        return topic 
+    else:
+        return None
+
+
 # Move to separate model class
 # create new subtopic
 def create_subTopic(maintopic_id, subtopic_name, subtopic_description, date_timestamp):
@@ -32,11 +53,7 @@ def create_subTopic(maintopic_id, subtopic_name, subtopic_description, date_time
     db.session.commit()
     return newSubTopic
 
-# get topic by id
-def get_topic_by_id(id):
-    print(f"Getting Topic with ID: {id}")
-    topic = Topic.query.filter_by(id=id).first()
-    return topic
+
 
 #  get_topic_by_term
 def get_topic_by_term(term):

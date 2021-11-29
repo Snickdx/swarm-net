@@ -4,6 +4,7 @@ from flask_jwt import jwt_required
 topic_views = Blueprint('topic_views', __name__, template_folder='../templates')
 
 from App.controllers.topic import (
+    edit_topic,
     get_popular_topics,
     get_topics,
     create_topic,
@@ -24,13 +25,27 @@ def get_all_topics():
     return jsonify(topics)
 
 # create Topic
-@topic_views.route('/create-topic', methods=["POST"])
+@topic_views.route('/topics', methods=["POST"])
 @jwt_required()
 def create_new_topic():
     text = request.json.get('text')
     level = request.json.get('level')
     topic = create_topic(text, level)
     return jsonify(topic)
+
+
+# edit Topic
+@topic_views.route('/topics/<int:topic_id>', methods=["PUT"])
+@jwt_required()
+def update_topic(topic_id):
+    text = request.json.get('text')
+    level = request.json.get('level')
+    
+    topic = edit_topic(topic_id, text, level)
+    if topic:
+        return jsonify(topic)
+    else: 
+        return 404
 
 
 # get specific Topic by ID
