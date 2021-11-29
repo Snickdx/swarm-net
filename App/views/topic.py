@@ -4,6 +4,7 @@ from flask_jwt import jwt_required
 topic_views = Blueprint('topic_views', __name__, template_folder='../templates')
 
 from App.controllers.topic import (
+    get_popular_topics,
     get_topics,
     create_topic,
     get_topic_by_id,
@@ -14,7 +15,12 @@ from App.controllers.topic import (
 @topic_views.route('/topics', methods=["GET"])
 @jwt_required()
 def get_all_topics():
-    topics = get_topics()
+    filter_popular = request.args.get('popular')
+
+    if filter_popular:
+        topics = get_popular_topics()
+    else:
+        topics = get_topics()
     return jsonify(topics)
 
 # create Topic

@@ -5,6 +5,14 @@ from App.models.user import User
 def get_topics():
     return Topic.query.all()
 
+
+# Get top 5 topics by post count
+def get_popular_topics():
+    topics = get_topics()
+    sorted(topics, key=lambda i: i.post_count)
+    return topics[:5]
+    
+
 # create new topic
 def create_topic(text, level):
     newTopic = Topic(text=text, level=level)
