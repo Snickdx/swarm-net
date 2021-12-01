@@ -1,16 +1,13 @@
+from App.modules.serialization_module import serialize_list
 from flask import Blueprint, jsonify, request
 from flask_jwt import jwt_required
 
+from App.controllers.topic import (create_topic, delete_topic_by_id,
+                                   edit_topic, get_popular_topics,
+                                   get_topic_by_id, get_topics)
+
 topic_views = Blueprint('topic_views', __name__, template_folder='../templates')
 
-from App.controllers.topic import (
-    edit_topic,
-    get_popular_topics,
-    get_topics,
-    create_topic,
-    get_topic_by_id,
-    delete_topic_by_id,
-)
 
 # Get all topics
 @topic_views.route('/topics', methods=["GET"])
@@ -22,7 +19,9 @@ def get_all_topics():
         topics = get_popular_topics()
     else:
         topics = get_topics()
+    topics = serialize_list(topics)
     return jsonify(topics)
+
 
 # create Topic
 @topic_views.route('/topics', methods=["POST"])
@@ -31,7 +30,7 @@ def create_new_topic():
     text = request.json.get('text')
     level = request.json.get('level')
     topic = create_topic(text, level)
-    return jsonify(topic)
+    return jsonify(topic.toDict())
 
 
 # edit Topic
@@ -58,4 +57,4 @@ def get_topic(topic_id):
 @topic_views.route('/topics/<int:topic_id>', methods=["DELETE"])
 def delete_topic(topic_id):
     result = delete_topic_by_id(topic_id)
-    return jsonify(result) if result else 404
+    return jsonify(result.toDict()) if result else 404
