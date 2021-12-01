@@ -75,3 +75,10 @@ def delete_topic_by_id(id):
         db.session.commit()
         return topic
     return None
+
+
+# get topic by levelid
+def get_topic_by_level(topiclvl_id):
+     print("getting Topic")
+     topic_lvl = Topic.query.filter(Topic.level == topiclvl_id).first() 
+     return topic_lvl

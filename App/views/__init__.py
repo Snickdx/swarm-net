@@ -4,3 +4,5 @@ from .chat import *
 from .auth import *
 from .home import *
 from .topic import *
+from .tag import *
+from .reply import *
