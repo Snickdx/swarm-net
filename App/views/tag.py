@@ -38,7 +38,6 @@ def create_tag():
 @tag_views.route("/tags/<int:tag_id>", methods=["PUT"])
 @jwt_required
 def update_tag(tag_id):
-    tag_id = request.json.get("tag_id")
     text = request.json.get("text")
     created_date = request.json.get("created_date")
 
