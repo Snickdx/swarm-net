@@ -39,9 +39,8 @@ def create_tag():
 @jwt_required
 def update_tag(tag_id):
     text = request.json.get("text")
-    created_date = request.json.get("created_date")
 
-    tag = edit_tag(tag_id, text, created_date)
+    tag = edit_tag(tag_id, text)
 
     return jsonify(tag.toDict()) if tag else 404
     

@@ -1,3 +1,4 @@
+from datetime import datetime
 from App.models import (Tag, db)
 
 def get_tag_by_id(id):
@@ -15,12 +16,12 @@ def create_new_tag(text, created_date):
     return new_tag
     
 
-def edit_tag(tag_id, text, created_date):
+def edit_tag(tag_id, text):
     tag = get_tag_by_id(tag_id)
 
     if tag:
         tag.text = text
-        tag.created = created_date
+        tag.created = datetime.now
 
         print(f"Updated tag: {tag_id}")
         db.session.add(tag)
