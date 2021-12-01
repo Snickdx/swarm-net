@@ -11,21 +11,21 @@ reply_views = Blueprint('reply_views', __name__, template_folder='../templates')
 
 
 # get reply by id
-@reply_views.route('/replys/<int:reply_id>', methods=["GET"])
+@reply_views.route('/replies/<int:reply_id>', methods=["GET"])
 def get_reply(reply_id):
     reply = get_reply_by_id(reply_id)
     return jsonify(reply.toDict())
 
 
-# get all replys
-@reply_views.route("/replys", methods=["GET"])
+# get all replies
+@reply_views.route("/replies", methods=["GET"])
 @jwt_required
-def get_all_replys():
-    replys = Reply.query.all()
-    return jsonify(serialize_list(replys))
+def get_all_replies():
+    replies = Reply.query.all()
+    return jsonify(serialize_list(replies))
 
 
-@reply_views.route("/replys", methods=["POST"])
+@reply_views.route("/replies", methods=["POST"])
 @jwt_required
 def create_reply():
     post_id = request.json.get("post_id")
@@ -34,7 +34,7 @@ def create_reply():
     return jsonify(new_reply.toDict())
 
 # TODO: Implement when more details are obtained
-# @reply_views.route("/replys/<int:reply_id>", methods=["PUT"])
+# @reply_views.route("/replies/<int:reply_id>", methods=["PUT"])
 # @jwt_required
 # def update_reply(reply_id):
 #     reply_id = request.json.get("reply_id")
@@ -46,7 +46,7 @@ def create_reply():
 #     return jsonify(reply.toDict()) if reply else 404
     
 
-@reply_views.route("/replys/<int:reply_id>", methods=["DELETE"])
+@reply_views.route("/replies/<int:reply_id>", methods=["DELETE"])
 @jwt_required
 def delete_reply(reply_id):
     result = delete_reply_by_id(reply_id)
