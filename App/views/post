@@ -7,7 +7,7 @@ post_views = Blueprint('post_views', __name__, template_folder='../templates')
 
 
 # get post by id
-@post_views.route('/topics/<int:post_id>', methods=["GET"])
+@post_views.route('/posts/<int:post_id>', methods=["GET"])
 def get_post(post_id):
     post = get_post_by_id(post_id)
     return post.toDict()
