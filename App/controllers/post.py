@@ -1,10 +1,20 @@
+from App.controllers.user import get_user_by_id
 from App.models import (Post, db)
 
 
 def get_post_by_id(id):
     print(f"Getting post with ID: {id}")
-    topic = Post.query.filter_by(id=id).first()
-    return topic
+    post = Post.query.filter_by(id=id).first()
+    return post
+
+
+def get_user_posts(user_id):
+    user = get_user_by_id(user_id)
+
+    if user:
+        return user.posts
+    else:
+        raise Exception("User not found")
 
 
 def create_new_post(user_id, topic_id, text, created_date):
