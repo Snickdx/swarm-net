@@ -58,7 +58,4 @@ def get_topic(topic_id):
 @topic_views.route('/topics/<int:topic_id>', methods=["DELETE"])
 def delete_topic(topic_id):
     result = delete_topic_by_id(topic_id)
-    if result:
-        return jsonify(result)
-    else:
-        return 404
+    return jsonify(result) if result else 404
