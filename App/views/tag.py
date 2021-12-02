@@ -12,6 +12,7 @@ tag_views = Blueprint('tag_views', __name__, template_folder='../templates')
 
 # get tag by id
 @tag_views.route('/tags/<int:tag_id>', methods=["GET"])
+@jwt_required()
 def get_tag(tag_id):
     tag = get_tag_by_id(tag_id)
     return jsonify(tag.toDict())
@@ -19,14 +20,14 @@ def get_tag(tag_id):
 
 # get all tags
 @tag_views.route("/tags", methods=["GET"])
-@jwt_required
+@jwt_required()
 def get_all_tags():
     tags = Tag.query.all()
     return jsonify(serialize_list(tags))
 
 
 @tag_views.route("/tags", methods=["POST"])
-@jwt_required
+@jwt_required()
 def create_tag():
     text = request.json.get("text")
     created_date = request.json.get("created_date")
@@ -36,7 +37,7 @@ def create_tag():
 
 
 @tag_views.route("/tags/<int:tag_id>", methods=["PUT"])
-@jwt_required
+@jwt_required()
 def update_tag(tag_id):
     text = request.json.get("text")
 
@@ -46,7 +47,7 @@ def update_tag(tag_id):
     
 
 @tag_views.route("/tags/<int:tag_id>", methods=["DELETE"])
-@jwt_required
+@jwt_required()
 def delete_tag(tag_id):
     result = delete_tag_by_id(tag_id)
     return jsonify(result.toDict()) if result else 404

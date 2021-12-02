@@ -1,5 +1,7 @@
 from datetime import datetime
-from App.models import (Tag, db)
+from App.models import Tag
+from . import db
+
 
 def get_tag_by_id(id):
     print(f"Getting tag with ID: {id}")
@@ -14,7 +16,7 @@ def create_new_tag(text, created_date):
     db.session.add(new_tag)
     db.session.commit()
     return new_tag
-    
+
 
 def edit_tag(tag_id, text):
     tag = get_tag_by_id(tag_id)
@@ -26,7 +28,7 @@ def edit_tag(tag_id, text):
         print(f"Updated tag: {tag_id}")
         db.session.add(tag)
         db.session.commit()
-        return tag 
+        return tag
     else:
         return None
 

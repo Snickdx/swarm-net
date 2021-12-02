@@ -1,14 +1,11 @@
-from flask_sqlalchemy import SQLAlchemy
-
-# init db
-db = SQLAlchemy()
-
+from . import db
 
 class Topic(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(300), nullable=False)
-    level = db.relationship("Admin",back_populates="topic")
+    # level = db.relationship("Admin",back_populates="topic")
     posts = db.relationship("Post", back_populates="topic")
+    subscriptions = db.relationship("Subscription", back_populates="topic")
             
 
     def __repr__(self):

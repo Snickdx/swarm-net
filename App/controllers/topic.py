@@ -1,4 +1,5 @@
-from App.models import (Topic, db)
+from App.models import Topic
+from . import db
 
 
 # get all topics

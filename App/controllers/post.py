@@ -1,5 +1,7 @@
 from App.controllers.user import get_user_by_id
-from App.models import (Post, db)
+from App.models import Post
+from . import db
+
 
 
 def get_post_by_id(id):

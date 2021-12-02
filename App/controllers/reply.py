@@ -1,4 +1,6 @@
-from App.models import (Reply, db)
+from App.models import Reply
+from . import db
+
 
 def get_reply_by_id(id):
     print(f"Getting reply with ID: {id}")

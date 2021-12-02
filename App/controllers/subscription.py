@@ -1,4 +1,5 @@
-from App.models import (Subscription, db)
+from . import db
+from App.models import Subscription
 from datetime import datetime
 
 

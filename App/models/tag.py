@@ -1,8 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-
-# init db
-db = SQLAlchemy()
+from . import db
 
 
 class Tag(db.Model):

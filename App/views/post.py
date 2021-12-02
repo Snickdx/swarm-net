@@ -25,7 +25,7 @@ def get_all_posts():
 
 #get posts by user
 @post_views.route("/posts/<int:user_id>", methods=["GET"])
-@jwt_required
+@jwt_required()
 def get_posts_by_user(user_id):
     try:
         posts = get_user_posts(user_id)
@@ -36,7 +36,7 @@ def get_posts_by_user(user_id):
     
 
 @post_views.route("/posts", methods=["POST"])
-@jwt_required
+@jwt_required()
 def create_post():
     user_id = request.json.get("user_id")
     topic_id = request.json.get("topic_id")
@@ -48,7 +48,7 @@ def create_post():
 
 
 @post_views.route("/posts/<int:post_id>", methods=["PUT"])
-@jwt_required
+@jwt_required()
 def update_post(post_id):
     post_id = request.json.get("post_id")
     topic_id = request.json.get("topic_id")
@@ -61,7 +61,7 @@ def update_post(post_id):
     
 
 @post_views.route("/posts/<int:post_id>", methods=["DELETE"])
-@jwt_required
+@jwt_required()
 def delete_post(post_id):
     result = delete_post_by_id(post_id)
     return jsonify(result.toDict()) if result else 404

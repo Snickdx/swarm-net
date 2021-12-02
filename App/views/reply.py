@@ -1,5 +1,4 @@
-from App.controllers.reply import (create_new_reply, delete_reply_by_id, edit_reply,
-                                 get_reply_by_id)
+from App.controllers.reply import (create_new_reply, delete_reply_by_id, get_reply_by_id)
 from App.models.reply import Reply
 from App.modules.serialization_module import serialize_list
 from flask import Blueprint, request
@@ -12,6 +11,7 @@ reply_views = Blueprint('reply_views', __name__, template_folder='../templates')
 
 # get reply by id
 @reply_views.route('/replies/<int:reply_id>', methods=["GET"])
+@jwt_required()
 def get_reply(reply_id):
     reply = get_reply_by_id(reply_id)
     return jsonify(reply.toDict())
@@ -19,14 +19,14 @@ def get_reply(reply_id):
 
 # get all replies
 @reply_views.route("/replies", methods=["GET"])
-@jwt_required
+@jwt_required()
 def get_all_replies():
     replies = Reply.query.all()
     return jsonify(serialize_list(replies))
 
 
 @reply_views.route("/replies", methods=["POST"])
-@jwt_required
+@jwt_required()
 def create_reply():
     post_id = request.json.get("post_id")
 
@@ -47,7 +47,7 @@ def create_reply():
     
 
 @reply_views.route("/replies/<int:reply_id>", methods=["DELETE"])
-@jwt_required
+@jwt_required()
 def delete_reply(reply_id):
     result = delete_reply_by_id(reply_id)
     return jsonify(result.toDict()) if result else 404
