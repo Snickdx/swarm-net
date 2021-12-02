@@ -9,7 +9,7 @@ db = SQLAlchemy()
 class Topic(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(300), nullable=False)
-    level = db.Column(db.Integer, nullable=False)
+    level = db.Column(db.Integer, nullable=False) 
     posts = db.relationship("Post", back_populates="topic")
             
 
