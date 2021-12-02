@@ -21,15 +21,15 @@ class Topic(db.Model):
         return len(self.posts)
 
     # TODO: Implement observer pattern
-    def subscribe(userID,Topicid):
-        createSubscribe = Subscription(userID=userID, Topicid=Topicid)
+    def subscribe(userID,TopicId):
+        createSubscribe = Subscription(userID=userID, TopicId=TopicId)
         print(f"Subscribed: {userID}")
         db.session.add(createSubscribe)
         db.session.commit()
         return createSubscribe
 
-    def unsubscribe(userID, Topicid):
-        deleteSubscribe = Subscription(userID=userID, Topicid=Topicid)
+    def unsubscribe(userID, TopicId):
+        deleteSubscribe = Subscription(userID=userID, TopicId=TopicId)
         print(f"Un-Subscribed: {userID}")
         db.session.delete(deleteSubscribe)
         db.session.commit()
