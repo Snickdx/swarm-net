@@ -1,13 +1,19 @@
+
 from . import db
+
+from flask_sqlalchemy import SQLAlchemy
+
+from models import Subscription
+
+
 
 class Topic(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(300), nullable=False)
-    # level = db.relationship("Admin",back_populates="topic")
+    level = db.Column(db.Integer, nullable=False) 
     posts = db.relationship("Post", back_populates="topic")
     subscriptions = db.relationship("Subscription", back_populates="topic")
             
-
     def __repr__(self):
         return f"{self.text}"
 
@@ -16,11 +22,19 @@ class Topic(db.Model):
         return len(self.posts)
 
     # TODO: Implement observer pattern
-    def subscribe(self, userId):
-        self.text = userId
+    def subscribe(userID,TopicId):
+        createSubscribe = Subscription(userID=userID, TopicId=TopicId)
+        print(f"Subscribed: {userID}")
+        db.session.add(createSubscribe)
+        db.session.commit()
+        return createSubscribe
 
-    def unsubscribe(self, userId):
-        self.text = userId
+    def unsubscribe(userID, TopicId):
+        deleteSubscribe = Subscription(userID=userID, TopicId=TopicId)
+        print(f"Un-Subscribed: {userID}")
+        db.session.delete(deleteSubscribe)
+        db.session.commit()
+        return deleteSubscribe
 
     def toDict(self):
         return {
