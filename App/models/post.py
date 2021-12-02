@@ -12,7 +12,7 @@ class Post(db.Model):
     user = db.relationship("User", back_populates="posts")
     topicId = db.Column(db.Integer, db.ForeignKey('topic.id'))
     topic = db.relationship("Topic", back_populates="posts")
-    text = db.Column(db.String(200), nullable=False)
+    text = db.Column(db.String(200), nullable=False) 
     created = db.Column(db.Datetime, nullable=False, default=datetime.utcnow)
         
 
