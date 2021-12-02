@@ -6,7 +6,7 @@ db = SQLAlchemy()
 
 class Subscription(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userID = db.Column(db.Integer, db.ForeignKey('user.id'))
+    userID = db.Column(db.Integer, db.ForeignKey('user.id')) 
     TopicId = db.Column(db.Integer, db.ForeignKey('topic.id'))
     
 
