@@ -10,6 +10,7 @@ post_views = Blueprint('post_views', __name__, template_folder='../templates')
 
 # get post by id
 @post_views.route('/posts/<int:post_id>', methods=["GET"])
+@jwt_required()
 def get_post(post_id):
     post = get_post_by_id(post_id)
     return jsonify(post.toDict())
@@ -17,7 +18,7 @@ def get_post(post_id):
 
 # get all posts
 @post_views.route("/posts", methods=["GET"])
-@jwt_required
+@jwt_required()
 def get_all_posts():
     posts = Post.query.all()
     return jsonify(serialize_list(posts))
