@@ -1,4 +1,5 @@
-from . import db
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 
 
 class PostTag(db.Model):
@@ -11,10 +12,11 @@ class PostTag(db.Model):
         self.tagId = tagId
         self.postId = postId
         
-
     def __repr__(self):
         return f"{self.tagId}"
 
+    def get_posts_json(self):
+        return [ post.to_dict() for post in self.posts ] 
 
     def toDict(self):
         return {
