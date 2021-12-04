@@ -1,9 +1,7 @@
 import enum
-from flask_sqlalchemy import SQLAlchemy
-
 from .subscription import Subscription
+from App.database import db
 
-db = SQLAlchemy()
 
 class Level(enum.Enum):
     ZERO = "ZERO"

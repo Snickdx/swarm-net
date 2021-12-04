@@ -3,7 +3,7 @@ from App.controllers.post import (create_new_post, delete_post_by_id, edit_post,
 from App.models import Post
 from App.modules.serialization_module import serialize_list
 from flask import Blueprint, request
-from flask_jwt import jwt_required
+from flask_jwt import jwt_required, current_identity
 
 post_views = Blueprint('post_views', __name__, template_folder='../templates')
 
@@ -39,7 +39,7 @@ def get_posts_by_user(user_id):
 @post_views.route("/posts", methods=["POST"])
 @jwt_required()
 def create_post():
-    user_id = request.json.get("user_id")
+    user_id = current_identity
     topic_id = request.json.get("topic_id")
     text = request.json.get("text")
     created_date = request.json.get("created_date")

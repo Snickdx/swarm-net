@@ -1,7 +1,5 @@
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from App.database import db
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -13,7 +11,7 @@ class Tag(db.Model):
         return f"{self.text}"
 
     def get_created_string(self):
-        return created.strftime("%m/%d/%Y, %H:%M:%S")
+        return self.created.strftime("%m/%d/%Y, %H:%M:%S")
 
     def toDict(self):
         return {
