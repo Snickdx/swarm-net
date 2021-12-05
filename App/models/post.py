@@ -1,6 +1,8 @@
 from App.database import db
 from datetime import datetime
 
+from App.modules.serialization_module import serialize_list
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -23,8 +25,10 @@ class Post(db.Model):
 
     def toDict(self):
         return {
+            "id": self.id,
             "user_id": self.userId,
             "topicId": self.topicId,
             "text": self.text,
-            "created": self.get_created_string()
+            "created": self.get_created_string(),
+            "tags": serialize_list(list(map(lambda postTag: postTag.tag, self.tags)))
         }

@@ -41,23 +41,24 @@ def get_posts_by_user(user_id):
 def create_post():
     topic_id = request.json.get("topic_id")
     text = request.json.get("text")
+    tag_list = request.json.get("tags")
     created_date = request.json.get("created_date")
 
-    new_post = create_new_post(current_identity.id, topic_id, text, created_date)
-    return "Created", 201
+    new_post = create_new_post(current_identity.id, topic_id, text, tag_list, created_date)
+    return jsonify({"message": "Created"}), 201
 
 
 @post_views.route("/posts/<int:post_id>", methods=["PUT"])
 @jwt_required()
 def update_post(post_id):
-    post_id = request.json.get("post_id")
     topic_id = request.json.get("topic_id")
     text = request.json.get("text")
+    tags = request.json.get("tags")
     created_date = request.json.get("created_date")
 
-    post = edit_post(post_id, topic_id, text, created_date)
+    post = edit_post(post_id, topic_id, text, tags, created_date)
 
-    return jsonify(post.toDict()) if post else 404
+    return jsonify({"message": "Updated"}) if post else 404
     
 
 @post_views.route("/posts/<int:post_id>", methods=["DELETE"])

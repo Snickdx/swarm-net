@@ -1,9 +1,11 @@
+from sqlalchemy.orm import backref
 from App.database import db
 
 class PostTag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tagId = db.Column(db.Integer, db.ForeignKey('tag.id'))
     postId = db.Column(db.Integer, db.ForeignKey('post.id'))
+    tag = db.relationship("Tag", lazy=True, backref="tag")
     
 
     def __init__(self, tagId, postId):
@@ -18,6 +20,7 @@ class PostTag(db.Model):
 
     def toDict(self):
         return {
+            "id": self.id,
             "tagId": self.tagId,
             "postId": self.postId
         }
