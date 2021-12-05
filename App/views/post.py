@@ -13,7 +13,7 @@ post_views = Blueprint('post_views', __name__, template_folder='../templates')
 @jwt_required()
 def get_post(post_id):
     post = get_post_by_id(post_id)
-    return jsonify(post.toDict())
+    return jsonify(post.toDict()) if post else "Not found", 404
 
 
 # get all posts
@@ -25,7 +25,7 @@ def get_all_posts():
 
 
 #get posts by user
-@post_views.route("/posts/<int:user_id>", methods=["GET"])
+@post_views.route("/posts/user/<int:user_id>", methods=["GET"])
 @jwt_required()
 def get_posts_by_user(user_id):
     try:
@@ -65,5 +65,5 @@ def update_post(post_id):
 @jwt_required()
 def delete_post(post_id):
     result = delete_post_by_id(post_id)
-    return jsonify(result.toDict()) if result else 404
+    return jsonify({"message": f"Deleted post {post_id}"}) if result else 404
 
