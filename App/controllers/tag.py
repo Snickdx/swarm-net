@@ -23,7 +23,7 @@ def edit_tag(tag_id, text):
 
     if tag:
         tag.text = text
-        tag.created = datetime.now
+        tag.created = datetime.utcnow()
 
         print(f"Updated tag: {tag_id}")
         db.session.add(tag)

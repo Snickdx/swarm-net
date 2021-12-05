@@ -3,9 +3,9 @@ from .subscription import Subscription
 from App.database import db
 
 
-class Level(enum.Enum):
-    ZERO = "ZERO"
-    ONE = "ONE"
+class Level(int, enum.Enum):
+    ZERO = 0
+    ONE = 1
 
 class Topic(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -22,7 +22,7 @@ class Topic(db.Model):
     def get_posts_json(self):
         return [ post.toDict() for post in self.posts ]
 
-    # TODO: Implement observer pattern
+
     def subscribe(self, userId):
         sub = Subscription.query.filter_by(userId=userId, topicId=self.id)
         if sub:
@@ -40,6 +40,7 @@ class Topic(db.Model):
 
     def toDict(self):
         return {
+            "id": self.id,
             "text": self.text,
             "level": self.level
         }

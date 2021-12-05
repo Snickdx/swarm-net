@@ -1,7 +1,9 @@
+import datetime
+
 from App.controllers.user import get_user_by_id
 from App.models import Post
-from . import db
 
+from . import db
 
 
 def get_post_by_id(id):
@@ -20,7 +22,8 @@ def get_user_posts(user_id):
 
 
 def create_new_post(user_id, topic_id, text, created_date):
-    new_post = Post(user_id=user_id, topic_id=topic_id, text=text, created=created_date)
+    created_date = datetime.datetime.strptime(created_date, "%Y-%m-%dT%H:%M:%SZ")
+    new_post = Post(userId=user_id, topicId=topic_id, text=text, created=created_date)
     print(f"{user_id} has created a new post to topic {topic_id}")
 
     db.session.add(new_post)

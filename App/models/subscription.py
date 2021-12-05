@@ -11,7 +11,7 @@ class Subscription(db.Model):
 
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     topicId = db.Column(db.Integer, db.ForeignKey('topic.id'), primary_key=True)
-    created = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     status = db.Column(db.Enum(Status), default=Status.ACTIVE)
 
     def __init__(self, userId, topicId):
@@ -28,7 +28,8 @@ class Subscription(db.Model):
         self.status = Status.INACTIVE
 
     def get_created_string(self):
-        return self.created.strftime("%m/%d/%Y, %H:%M:%S")
+        return self.created.strftime("%Y-%m-%dT%H:%M:%SZ")
+
 
     def toDict(self):
         return {

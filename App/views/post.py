@@ -39,13 +39,12 @@ def get_posts_by_user(user_id):
 @post_views.route("/posts", methods=["POST"])
 @jwt_required()
 def create_post():
-    user_id = current_identity
     topic_id = request.json.get("topic_id")
     text = request.json.get("text")
     created_date = request.json.get("created_date")
 
-    new_post = create_new_post(user_id, topic_id, text, created_date)
-    return jsonify(new_post.toDict())
+    new_post = create_new_post(current_identity.id, topic_id, text, created_date)
+    return "Created", 201
 
 
 @post_views.route("/posts/<int:post_id>", methods=["PUT"])

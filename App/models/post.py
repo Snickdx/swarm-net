@@ -17,11 +17,14 @@ class Post(db.Model):
     def notifySubscribers(self, subscribers):
         self.text = subscribers
 
+    def get_created_string(self):
+        return self.created.strftime("%Y-%m-%dT%H:%M:%SZ")
+
 
     def toDict(self):
         return {
             "user_id": self.userId,
             "topicId": self.topicId,
             "text": self.text,
-            "created": self.created
+            "created": self.get_created_string()
         }
