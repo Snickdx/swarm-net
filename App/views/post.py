@@ -44,7 +44,7 @@ def create_post():
     tag_list = request.json.get("tags")
     created_date = request.json.get("created_date")
 
-    new_post = create_new_post(current_identity.id, topic_id, text, tag_list, created_date)
+    create_new_post(current_identity.id, topic_id, text, tag_list, created_date)
     return jsonify({"message": "Created"}), 201
 
 

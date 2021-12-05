@@ -1,4 +1,3 @@
-from sqlalchemy.orm import backref
 from App.database import db
 
 class PostTag(db.Model):
@@ -13,7 +12,7 @@ class PostTag(db.Model):
         self.postId = postId
         
     def __repr__(self):
-        return f"{self.tagId}"
+        return f"PostTag({self.tagId}, {self.postId})"
 
     def get_posts_json(self):
         return [ post.to_dict() for post in self.posts ] 

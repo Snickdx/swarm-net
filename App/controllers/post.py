@@ -25,8 +25,7 @@ def get_user_posts(user_id):
 
 
 def create_new_post(user_id, topic_id, text, tag_list, created_date):
-    created_date = datetime.datetime.strptime(created_date, "%Y-%m-%dT%H:%M:%SZ")
-    new_post = Post(userId=user_id, topicId=topic_id, text=text, created=created_date)
+    new_post = Post(userId=user_id, topicId=topic_id, text=text, created=parse_utc_date(created_date))
 
     db.session.add(new_post)
     db.session.commit()
@@ -34,7 +33,6 @@ def create_new_post(user_id, topic_id, text, tag_list, created_date):
     add_tags_to_post(new_post, tag_list)
 
     print(f"{user_id} has created a new post to topic {topic_id}")
-
     return new_post
     
 
@@ -44,24 +42,18 @@ def edit_post(post_id, topic_id, text, tag_list, created_date):
     if post:
         post.text = text
         post.topic_id = topic_id
-        post.created = created_date
+        post.created = parse_utc_date(created_date)
 
         add_tags_to_post(post, tag_list)
 
-        print(f"Updated post: {post_id} by user: {post.user_id}")
+        print(f"Updated post: {post_id} by user: {post.userId}")
         db.session.add(post)
         db.session.commit()
         return post 
     else:
         return None
 
-
-
-def add_tags_to_post(post, tag_list):
-    post_tags = create_post_tags(post, tag_list)
-    print(f"{len(post_tags)} tags added to post: {post.id}")
-
-
+        
 def delete_post_by_id(id):
     post = get_post_by_id(id)
 
@@ -71,3 +63,14 @@ def delete_post_by_id(id):
         db.session.commit()
         return post
     return None
+
+
+def parse_utc_date(date_string):
+    return datetime.datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%SZ")
+
+
+def add_tags_to_post(post, tag_list):
+    post_tags = create_post_tags(post, tag_list)
+    print(f"{len(post_tags)} tags added to post: {post.id}")
+
+
