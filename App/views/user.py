@@ -37,7 +37,7 @@ def get_user_reg_page():
         except IntegrityError:
             db.session.rollback()
             return jsonify('Something went wrong. User NOT Registered')
-        return jsonify('User Registered')
+        return redirect('/users')
         
     return render_template('register.html')  
 
