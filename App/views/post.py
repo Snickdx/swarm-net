@@ -20,16 +20,14 @@ def get_post(post_id):
 # get all posts
 @post_views.route("/posts", methods=["GET"])
 @jwt_required()
-def get_all_posts():
-    posts = Post.query.all()
-    return jsonify(serialize_list(posts))
+def get_posts():
+    user_id = request.args.get("user")
 
-
-# get posts by user
-@post_views.route("/posts/user/<int:user_id>", methods=["GET"])
-@jwt_required()
-def get_posts_by_user(user_id):
-    posts = get_user_posts(user_id)
+    if user_id:
+        # get posts by user
+        posts = get_user_posts(user_id)
+    else:
+        posts = Post.query.all()
     return jsonify(serialize_list(posts))
 
 

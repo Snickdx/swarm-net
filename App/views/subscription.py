@@ -1,5 +1,7 @@
-from App.controllers.subscription import (create_new_subscription, delete_subscription_by_id, edit_subscription,
-                                 get_subscription_by_id)
+from App.controllers.subscription import (create_new_subscription,
+                                          delete_subscription_by_id,
+                                          edit_subscription,
+                                          get_subscription_by_id, get_user_subscriptions)
 from App.models.subscription import Subscription
 from App.modules.serialization_module import serialize_list
 from flask import Blueprint, request
@@ -7,7 +9,6 @@ from flask.json import jsonify
 from flask_jwt import jwt_required
 
 subscription_views = Blueprint('subscription_views', __name__, template_folder='../templates')
-
 
 
 # get subscription by id
@@ -21,9 +22,15 @@ def get_subscription(subscription_id):
 # get all subscriptions
 @subscription_views.route("/subscriptions", methods=["GET"])
 @jwt_required()
-def get_all_subscriptions():
-    subscriptions = Subscription.query.all()
+def get_subscriptions():
+    user_id = request.args.get("user")
+
+    if user_id:
+        subscriptions = get_user_subscriptions(user_id)
+    else:
+        subscriptions = Subscription.query.all()
     return jsonify(serialize_list(subscriptions))
+
 
 
 @subscription_views.route("/subscriptions", methods=["POST"])

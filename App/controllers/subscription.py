@@ -1,3 +1,4 @@
+from App.controllers.user import get_user_by_id
 from . import db
 from App.models import Subscription
 from datetime import datetime
@@ -7,6 +8,13 @@ def get_subscription_by_id(id):
     print(f"Getting subscription with ID: {id}")
     subscription = Subscription.query.filter_by(id=id).first()
     return subscription
+
+
+def get_user_subscriptions(user_id):
+    user = get_user_by_id(user_id)
+    if user:
+        return user.subscriptions
+    return None
 
 
 def create_new_subscription(user_id, topic_id):
