@@ -16,7 +16,7 @@ subscription_views = Blueprint('subscription_views', __name__, template_folder='
 @jwt_required()
 def get_subscription(subscription_id):
     subscription = get_subscription_by_id(subscription_id)
-    return jsonify(subscription.toDict())
+    return jsonify(subscription.toDict()) if subscription else ("Not found", 404)
 
 
 # get all subscriptions
@@ -43,17 +43,18 @@ def create_subscription():
     return jsonify({"message": "created"}), 201
 
 
-@subscription_views.route("/subscriptions/<int:subscription_id>", methods=["PUT"])
-@jwt_required()
-def update_subscription(subscription_id):
-    status = request.json.get("status")
-    subscription = edit_subscription(subscription_id, status)
+# TODO: Remove if unncessary
+# @subscription_views.route("/subscriptions/<int:subscription_id>", methods=["PUT"])
+# @jwt_required()
+# def update_subscription(subscription_id):
+#     status = request.json.get("status")
+#     subscription = edit_subscription(subscription_id, status)
 
-    return jsonify(subscription.toDict()) if subscription else 404
+#     return jsonify(subscription.toDict()) if subscription else 404
     
 
 @subscription_views.route("/subscriptions/<int:subscription_id>", methods=["DELETE"])
 @jwt_required()
 def delete_subscription(subscription_id):
     result = delete_subscription_by_id(subscription_id)
-    return jsonify(result.toDict()) if result else 404
+    return jsonify({"message": "Unsubscribed"}), 201 if result else ("Not found", 404)

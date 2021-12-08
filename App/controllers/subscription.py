@@ -46,7 +46,9 @@ def delete_subscription_by_id(id):
 
     if subscription:
         print(f"Deleting subscription with id: {id}")
-        db.session.delete(subscription)
+        subscription.set_inactive()
+
+        db.session.add(subscription)
         db.session.commit()
         return subscription
     return None
