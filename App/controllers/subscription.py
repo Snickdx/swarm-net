@@ -14,7 +14,8 @@ def get_subscriptions_by_user(user_id):
     user = get_user_by_id(user_id)
     if user:
         return user.subscriptions
-    return None
+    else:
+        raise Exception("User not found")
 
 
 def create_new_subscription(user_id, topic_id):

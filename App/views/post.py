@@ -1,10 +1,11 @@
-from flask.json import jsonify
-from App.controllers.post import (
-    create_new_post, delete_post_by_id, edit_post, get_post_by_id, get_user_posts)
+from App.controllers.post import (create_new_post, delete_post_by_id,
+                                  edit_post, get_post_by_id,
+                                  get_posts_by_topic, get_posts_by_user)
 from App.models import Post
 from App.modules.serialization_module import serialize_list
 from flask import Blueprint, request
-from flask_jwt import jwt_required, current_identity
+from flask.json import jsonify
+from flask_jwt import current_identity, jwt_required
 
 post_views = Blueprint('post_views', __name__, template_folder='../templates')
 
@@ -28,8 +29,16 @@ def get_all_posts():
 # get posts by user
 @post_views.route("/posts/users/<int:user_id>", methods=["GET"])
 @jwt_required()
-def get_posts_by_user(user_id):
-    posts = get_user_posts(user_id)
+def get_user_posts(user_id):
+    posts = get_posts_by_user(user_id)
+    return jsonify(serialize_list(posts))
+
+
+# get posts by topic
+@post_views.route("/posts/topics/<int:topic_id>", methods=["GET"])
+@jwt_required()
+def get_topic_posts(topic_id):
+    posts = get_posts_by_topic(topic_id)
     return jsonify(serialize_list(posts))
 
 
