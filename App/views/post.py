@@ -1,5 +1,6 @@
 from flask.json import jsonify
-from App.controllers.post import (create_new_post, delete_post_by_id, edit_post, get_post_by_id, get_user_posts)
+from App.controllers.post import (
+    create_new_post, delete_post_by_id, edit_post, get_post_by_id, get_user_posts)
 from App.models import Post
 from App.modules.serialization_module import serialize_list
 from flask import Blueprint, request
@@ -24,17 +25,13 @@ def get_all_posts():
     return jsonify(serialize_list(posts))
 
 
-#get posts by user
+# get posts by user
 @post_views.route("/posts/user/<int:user_id>", methods=["GET"])
 @jwt_required()
 def get_posts_by_user(user_id):
-    try:
-        posts = get_user_posts(user_id)
-        return jsonify(serialize_list(posts))
-    except Exception as e:
-        print(e)
-        return 500
-    
+    posts = get_user_posts(user_id)
+    return jsonify(serialize_list(posts))
+
 
 @post_views.route("/posts", methods=["POST"])
 @jwt_required()
@@ -44,7 +41,8 @@ def create_post():
     tag_list = request.json.get("tags")
     created_date = request.json.get("created_date")
 
-    create_new_post(current_identity.id, topic_id, text, tag_list, created_date)
+    create_new_post(current_identity.id, topic_id,
+                    text, tag_list, created_date)
     return jsonify({"message": "Created"}), 201
 
 
@@ -59,11 +57,10 @@ def update_post(post_id):
     post = edit_post(post_id, topic_id, text, tags, created_date)
 
     return jsonify({"message": "Updated"}) if post else 404
-    
+
 
 @post_views.route("/posts/<int:post_id>", methods=["DELETE"])
 @jwt_required()
 def delete_post(post_id):
     result = delete_post_by_id(post_id)
     return jsonify({"message": f"Deleted post {post_id}"}) if result else 404
-
