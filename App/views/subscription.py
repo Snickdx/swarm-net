@@ -31,10 +31,9 @@ def get_all_subscriptions():
 def create_subscription():
     user_id = request.json.get("user_id")
     topic_id = request.json.get("topic_id")
-    status = request.json.get("status")
 
-    new_subscription = create_new_subscription(user_id, topic_id, status)
-    return jsonify(new_subscription.toDict())
+    create_new_subscription(user_id, topic_id)
+    return jsonify({"message": "created"}), 201
 
 
 @subscription_views.route("/subscriptions/<int:subscription_id>", methods=["PUT"])

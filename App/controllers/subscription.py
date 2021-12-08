@@ -9,9 +9,9 @@ def get_subscription_by_id(id):
     return subscription
 
 
-def create_new_subscription(user_id, topic_id, status):
-    new_subscription = Subscription(user_id=user_id, topic_id=topic_id, status=status)
-    print(f"Creating subscription for user: {user_id} and topic: {topic_id}")
+def create_new_subscription(user_id, topic_id):
+    new_subscription = Subscription(userId=user_id, topicId=topic_id)
+    print(f"Creating new subscription for user: {user_id} for topic: {topic_id}")
 
     db.session.add(new_subscription)
     db.session.commit()
