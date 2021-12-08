@@ -10,7 +10,7 @@ def get_subscription_by_id(id):
     return subscription
 
 
-def get_user_subscriptions(user_id):
+def get_subscriptions_by_user(user_id):
     user = get_user_by_id(user_id)
     if user:
         return user.subscriptions
